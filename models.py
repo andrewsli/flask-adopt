@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+DEFAULT_IMG_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/220px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg'
+
 
 def connect_db(app):
     """Connect to database."""
@@ -12,9 +14,13 @@ def connect_db(app):
 
 
 class Pet(db.Model):
-    """Pets."""
+    """Model for pets table"""
 
     __tablename__ = "pets"
+
+    def __repr__(self):
+        x = self
+        return f"<Pet {x.id} {x.name} {x.species} {x.age}>"
 
     id = db.Column(
         db.Integer,
@@ -34,8 +40,7 @@ class Pet(db.Model):
 
     photo_url = db.Column(
         db.Text,
-        nullable=True,
-        default='https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/220px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg'
+        default=DEFAULT_IMG_URL,
         )
 
     age = db.Column(
@@ -45,7 +50,6 @@ class Pet(db.Model):
 
     notes = db.Column(
         db.Text,
-        nullable=True
         )
 
     available = db.Column(
